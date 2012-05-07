@@ -24,4 +24,11 @@ get TESTS() => {
 
   'functionCallStatement': statement('print("42");'),
   'compoundStatement': statement('print("42"); x();'),
+
+  'incompleteTripleQuotes': incomplete(@'"""multilinestring'),
+  'incompleteFunctionDecl': incomplete(@"main(){"),
+  'incompleteParens': incomplete(@"print("),
+  'incompleteBrackets': incomplete(@"[1,"),
+
+  'mismatchedBrackets': expression(@"foo())"), // handled by eval
 };
