@@ -37,6 +37,17 @@ environment variables DART_SOURCES and DART_SDK.
 
 # Limitations and workarounds
 
+## You can't import libraries
+
+    >> #import('mylib.dart');
+    Exception: 'console_declaration_3': Error: line 3 pos 1: unexpected token '#import'
+
+Workaround: `dart:io` is already loaded under the prefix `io`.
+
+Workaround: edit lib/sandbox.dart and add your imports to `_BASE`
+
+This is easy to fix, I just haven't done it yet...
+
 ## You can't "overwrite" a declared name.
 
     >> foo() => 1;

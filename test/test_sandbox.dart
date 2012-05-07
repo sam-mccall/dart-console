@@ -88,4 +88,11 @@ get TESTS() => {
     sandbox.execute('foo();');
     Expect.equals(42, sandbox.eval('bar()'));
   }),
+
+  'importFails': test((sandbox) { // Documented issue
+    Expect.throws(() => sandbox.import('bar.dart'));
+  }),
+  'ioAvailable': test((sandbox) { // Documented workaround
+    Expect.isNotNull(sandbox.eval('io.stdout'));
+  }),
 };
