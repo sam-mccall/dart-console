@@ -1,7 +1,28 @@
 dart-console: An interactive console for Dart
 =============================================
 
-# Prerequisites
+*WARNING*: This is a prototype and uses some hacky techniques under the hood. Performance may degrade during long-lived sessions and I wouldn't be surprised if this eventually breaks.
+
+# Example
+
+    >> print("Hello, dart!");
+    Hello, dart!
+    >> square(x) => x * x;
+    >> Math.sqrt(square(3) + square(4))
+    5.0
+    >> lives = 3;
+    >> die() {
+    {>   lives--;
+    {>   if (lives == 0) throw new Exception("Game over");
+    {> }
+    >> die();
+    >> die();
+    >> die();
+    Exception: Game over
+
+# Building (Linux/Mac)
+
+You'll need:
   * Dart source tree (strictly, you just need runtime/include/dart_api.h)
   * Dart SDK, if you want to generate documentation
   * libreadline-dev
@@ -10,7 +31,7 @@ dart-console: An interactive console for Dart
 Either edit build.sh to point to the source tree and SDK, or set the
 environment variables DART_SOURCES and DART_SDK.
 
-# Building and running
+## Building and running
     ./build.sh
     bin/console
 
@@ -29,7 +50,7 @@ Workaround: use variables instead of declarations
     >> foo()
     2
 
-## Global variables not detected within declarations
+## Global variables are not detected within declarations
 
     >> bar() { x = 2; }
     >> bar();
@@ -44,6 +65,7 @@ Workaround: initialize them in a statement beforehand
     2
 
 Workaround: use the VARIABLES map
+
     >> bar() { VARIABLES['x'] = 2; }
     >> bar();
     >> x
@@ -58,10 +80,10 @@ Workaround: use the VARIABLES map
 
 Workaround: understand the types of input the console accepts
   * Declarations: inserted at the top level.
-    * Input ending in }
+    * Input ending in `}`
     * Lambda declarations like `baz() => 42;`
   * Statements: wrapped in a method like `_execute() {$code}` and called
-    * Input ending in ;
+    * Input ending in `;`
   * Expressions: wrapped in a method like `_execute() {return ($code);}` and called
     * Everything else
 
