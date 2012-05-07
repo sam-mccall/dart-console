@@ -23,13 +23,11 @@ dart-console: An interactive console for Dart
 # Building (Linux/Mac)
 
 You'll need:
-  * Dart source tree (strictly, you just need runtime/include/dart_api.h)
-  * Dart SDK, if you want to generate documentation
+  * Dart SDK
   * libreadline-dev
   * Linux or Mac, g++ toolchain. (Windows is too hard, for now...)
 
-Either edit build.sh to point to the source tree and SDK, or set the
-environment variables DART_SOURCES and DART_SDK.
+Either edit build.sh to point to the SDK, or set the environment variable DART_SDK.
 
 ## Building and running
     ./build.sh
