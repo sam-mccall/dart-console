@@ -34,6 +34,19 @@ DART_FUNCTION(Invoke) {
   DART_RETURN(CheckDartError(Dart_Invoke(libraryHandle, funcName, 0, NULL)));
 }
 
+/** Imports the library named [importName] into [library]. */
+DART_FUNCTION(Import) {
+  DART_ARGS_3(library, importName, loadingClosure);
+  Dart_Handle libraryHandle = get_library(library);
+  Dart_Handle importHandle = Dart_LookupLibrary(importName);
+  if (Dart_IsError(importHandle)) {
+    Dart_Handle source = CheckDartError(Dart_InvokeClosure(loadingClosure, 0, NULL));
+    importHandle = CheckDartError(Dart_LoadLibrary(importName, source, Dart_Null()));
+  }
+  CheckDartError(Dart_LibraryImportLibrary(libraryHandle, importHandle));
+  DART_RETURN(Dart_Null());
+}
+
 /** Executes _seedEnv([map], [newVars]) within the context of [library]. */
 DART_FUNCTION(InitEnvMap) {
   DART_ARGS_2(library, map);
@@ -46,5 +59,6 @@ DART_LIBRARY(sandbox)
   EXPORT(Declare, 3);
   EXPORT(NewLibrary, 2);
   EXPORT(Invoke, 2);
+  EXPORT(Import, 3);
   EXPORT(InitEnvMap, 2);
 DART_LIBRARY_END

@@ -89,10 +89,20 @@ get TESTS() => {
     Expect.equals(42, sandbox.eval('bar()'));
   }),
 
-  'importFails': test((sandbox) { // Documented issue
-    Expect.throws(() => sandbox.import('bar.dart'));
+  'import': test((sandbox) {
+    sandbox.import('test/test_sandbox.library.dart');
+    Expect.equals("imported library", sandbox.eval('origin()'));
   }),
-  'ioAvailable': test((sandbox) { // Documented workaround
+  'importBuiltin': test((sandbox) {
+    Expect.throws(() => sandbox.eval('new HashMapImplementation() is Map'));
+    sandbox.import('dart:coreimpl');
+    Expect.isTrue(sandbox.eval('new HashMapImplementation() is Map'));
+  }),
+  'source': test((sandbox) {
+    sandbox.source('test/test_sandbox.source.dart');
+    Expect.equals("sourced file", sandbox.eval('origin()'));
+  }),
+  'ioAvailable': test((sandbox) {
     Expect.isNotNull(sandbox.eval('io.stdout'));
   }),
 };

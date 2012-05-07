@@ -5,6 +5,8 @@
 #library("sandbox");
 #import("dart-ext:dart_sandbox");
 #import("dart:coreimpl");
+#import("dart:io");
+#import("dart:uri");
 
 class _TrackingMap extends HashMapImplementation {
   var _newKeys;
@@ -59,6 +61,9 @@ class Sandbox {
   }
 
   execute(code) {
+    var directiveMatch = const RegExp('^\\s*\\#(source|import)\\s*\\(["\'](.*)["\']\\)\\s*;\\s*\$').firstMatch(code);
+    if (directiveMatch != null) return ((directiveMatch[1] == 'source') ? source : import)(directiveMatch[2]);
+
     var name = "_Eval${_unique()}";
     var body = """
       class $name extends _Env {
@@ -68,6 +73,18 @@ class Sandbox {
     """;
     declare(body);
     return _invoke(_library, "${name}_execute");
+  }
+
+  void import(relativeUri) {
+    var uri = new Uri(scheme:"file", path:"${new Directory.current().path}/").resolve(relativeUri);
+    var readFile = () => new File(relativeUri).readAsTextSync();
+    return _import(_library, uri.toString(), readFile);
+  }
+
+  void source(relativeUri) {
+    var uri = new Uri(scheme:"file", path:"${new Directory.current().path}/").resolve(relativeUri);
+    var code = new File(relativeUri).readAsTextSync();
+    return _declare(_library, uri.toString(), code);
   }
 
   void declare(code) {
@@ -86,5 +103,6 @@ _newException(x) => new Exception(x); // For use from extension
 
 _createLibrary(url, source) native "NewLibrary";
 _declare(library, id, code) native "Declare";
+_import(library, importName, importClosure) native "Import";
 _invoke(library, className) native "Invoke";
 _initEnvMap(library, map) native "InitEnvMap";
