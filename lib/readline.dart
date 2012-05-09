@@ -45,7 +45,5 @@ class History {
   add(text) => _history_add(text);
 }
 
-_newException(x) => new Exception(x);
-
 _readline(prompt) native "Readline";
 _history_add(text) native "History_Add";

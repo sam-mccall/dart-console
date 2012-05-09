@@ -99,8 +99,6 @@ class Sandbox {
   static _unique() => _uniqueSeed++;
 }
 
-_newException(x) => new Exception(x); // For use from extension
-
 _createLibrary(url, source) native "NewLibrary";
 _declare(library, id, code) native "Declare";
 _import(library, importName, importClosure) native "Import";

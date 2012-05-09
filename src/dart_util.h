@@ -35,7 +35,8 @@ static Dart_Handle _library; // XXX this shouldn't be defined here
 
 static void _Throw(Dart_Handle library, const char* message) {
   Dart_Handle messageHandle = Dart_NewString(message);
-  Dart_Handle exception = Dart_Invoke(library, Dart_NewString("_newException"), 1, &messageHandle);
+  Dart_Handle exceptionClass = Dart_GetClass(library, Dart_NewString("Exception"));
+  Dart_Handle exception = Dart_New(exceptionClass, Dart_Null(), 1, &messageHandle);
   if (Dart_IsError(exception) && !Dart_ErrorHasException(exception)) {
     printf("Failed to throw exception: %s\n", Dart_GetError(exception));
     exit(1);
