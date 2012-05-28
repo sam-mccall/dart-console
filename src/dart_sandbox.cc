@@ -15,7 +15,7 @@ Dart_Handle get_library(Dart_Handle libraryNumberHandle) {
 /** Creates a new library from [source], returns an integer handle. */
 DART_FUNCTION(NewLibrary) {
   DART_ARGS_2(url, source);
-  Dart_Handle lib = Dart_NewPersistentHandle(CheckDartError(Dart_LoadLibrary(url, source, Dart_Null())));
+  Dart_Handle lib = Dart_NewPersistentHandle(CheckDartError(Dart_LoadLibrary(url, source)));
   DART_RETURN(Dart_NewInteger((int64_t) lib));
 }
 
@@ -41,7 +41,7 @@ DART_FUNCTION(Import) {
   Dart_Handle importHandle = Dart_LookupLibrary(importName);
   if (Dart_IsError(importHandle)) {
     Dart_Handle source = CheckDartError(Dart_InvokeClosure(loadingClosure, 0, NULL));
-    importHandle = CheckDartError(Dart_LoadLibrary(importName, source, Dart_Null()));
+    importHandle = CheckDartError(Dart_LoadLibrary(importName, source));
   }
   CheckDartError(Dart_LibraryImportLibrary(libraryHandle, importHandle));
   DART_RETURN(Dart_Null());

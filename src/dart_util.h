@@ -8,6 +8,7 @@
 #define DART_UTIL_H
 
 #include "dart_api.h"
+#include <stdlib.h>
 
 static Dart_Handle _library; // XXX this shouldn't be defined here
 

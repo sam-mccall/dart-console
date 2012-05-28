@@ -6,7 +6,9 @@
 #include <stdio.h>
 
 #include "dart_api.h"
-#include "readline/readline.h"
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <stdlib.h>
 
 #define DART_ARG(name, i) Dart_Handle name = Dart_GetNativeArgument(arguments, i);
 #ifdef DEBUG
