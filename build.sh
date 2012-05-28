@@ -21,7 +21,7 @@ buildlib() {
       echo "Warning: Unrecognized OS $UNAME, this likely won't work"
     fi
     COPTS="$COPTS -shared"
-    OUTNAME="lib$OUTNAME.so"
+    OUTNAME="lib$LIBNAME.so"
   fi
   echo g++ $COPTS $SRCS -o lib/$OUTNAME
   g++ $COPTS $SRCS -o lib/$OUTNAME
