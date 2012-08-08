@@ -76,13 +76,13 @@ class Sandbox {
   }
 
   void import(relativeUri) {
-    var uri = new Uri(scheme:"file", path:"${new Directory.current().path}/").resolve(relativeUri);
+    var uri = new Uri.fromComponents(scheme:"file", path:"${new Directory.current().path}/").resolve(relativeUri);
     var readFile = () => new File(relativeUri).readAsTextSync();
     return _import(_library, uri.toString(), readFile);
   }
 
   void source(relativeUri) {
-    var uri = new Uri(scheme:"file", path:"${new Directory.current().path}/").resolve(relativeUri);
+    var uri = new Uri.fromComponents(scheme:"file", path:"${new Directory.current().path}/").resolve(relativeUri);
     var code = new File(relativeUri).readAsTextSync();
     return _declare(_library, uri.toString(), code);
   }
