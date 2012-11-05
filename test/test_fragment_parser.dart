@@ -9,7 +9,7 @@ expression(text) => expectParsesAs(FragmentParser.EXPRESSION, text);
 statement(text) => expectParsesAs(FragmentParser.STATEMENT, text);
 declaration(text) => expectParsesAs(FragmentParser.DECLARATION, text);
 
-get TESTS() => {
+get TESTS => {
   'simpleExpression': expression('2+2'),
   'functionCallExpression': expression('x()'),
   'untypedMapLiteral': expression('{"x": 42}'),
@@ -19,16 +19,16 @@ get TESTS() => {
 
   'functionDeclaration': declaration('x() { return 42; }'),
   'lambdaFunctionDeclaration': declaration('x() => 42;'),
-  'typedLambdaGetterDeclaration': declaration('int get x() => 42;'),
+  'typedLambdaGetterDeclaration': declaration('int get x => 42;'),
   'class': declaration('class Foo { var x, y; }'),
 
   'functionCallStatement': statement('print("42");'),
   'compoundStatement': statement('print("42"); x();'),
 
-  'incompleteTripleQuotes': incomplete(@'"""multilinestring'),
-  'incompleteFunctionDecl': incomplete(@"main(){"),
-  'incompleteParens': incomplete(@"print("),
-  'incompleteBrackets': incomplete(@"[1,"),
+  'incompleteTripleQuotes': incomplete(r'"""multilinestring'),
+  'incompleteFunctionDecl': incomplete(r"main(){"),
+  'incompleteParens': incomplete(r"print("),
+  'incompleteBrackets': incomplete(r"[1,"),
 
-  'mismatchedBrackets': expression(@"foo())"), // handled by eval
+  'mismatchedBrackets': expression(r"foo())"), // handled by eval
 };

@@ -10,7 +10,7 @@ class FragmentParser {
 	var _buffer;
 	var _stack;
 	FragmentParser() : _buffer = new StringBuffer(), _stack = [];
-	get context() =>  _stack.isEmpty() ? null : _stack[_stack.length - 1];
+	get context =>  _stack.isEmpty ? null : _stack[_stack.length - 1];
 
 	void append(text) {
 		text.splitChars().forEach(_updateStack);
@@ -37,8 +37,8 @@ class FragmentParser {
     if (!quote && ['[','{','(','"',"'"].indexOf(c) >= 0) return _stack.add(c);
   }
 
-  get state() {
-    if (!_stack.isEmpty()) return INCOMPLETE;
+  get state {
+    if (!_stack.isEmpty) return INCOMPLETE;
     var text = toString().trim();
     if (_isMapLiteral(text)) return EXPRESSION;
     if (text.endsWith('}')) return DECLARATION;
@@ -50,18 +50,19 @@ class FragmentParser {
   // Matches 'arrow' declarations like x() => 42;
   _isLambdaDeclaration(text) {
     if (!text.endsWith(';')) return false;
-    // up to three identifiers: int get foo(
-    var prelude = const RegExp(@"^\s*([a-zA-Z0-9_$]+\s*){1,3}\(").firstMatch(text);
+    // up to three identifiers: void set foo(
+    var prelude = const RegExp(r"^\s*([a-zA-Z0-9_$]+\s*){1,3}").firstMatch(text);
     if (prelude == null) return false;
-    var end = _findBalance(text, prelude.end() - 1);
-    return text.substring(end + 1).trim().startsWith("=>");
+    var end = prelude.end;
+    if (end < text.length && text[end] == "(") end = _findBalance(text, prelude.end) + 1;
+    return text.substring(end).trim().startsWith("=>");
   }
 
   // Matches map literals like {"x": y}, with optional type parameters.
   _isMapLiteral(text) {
     if (!text.endsWith('}')) return false;
     if (text.startsWith('{')) return true;
-    return const RegExp(@"^<\s*[a-zA-Z0-9_$]+\s*(,\s*[a-zA-Z0-9_$]+\s*)?>").hasMatch(text);
+    return const RegExp(r"^<\s*[a-zA-Z0-9_$]+\s*(,\s*[a-zA-Z0-9_$]+\s*)?>").hasMatch(text);
   }
 
   // Returns the index after the character matching the token at pos.
@@ -69,7 +70,7 @@ class FragmentParser {
   static _findBalance(text, pos) {
     var chars = text.splitChars();
     var cmd = new FragmentParser();
-    do cmd._updateStack(chars[pos++]); while (!cmd._stack.isEmpty());
+    do cmd._updateStack(chars[pos++]); while (!cmd._stack.isEmpty);
     return pos;
   }
 

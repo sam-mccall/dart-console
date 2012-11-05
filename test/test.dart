@@ -16,7 +16,7 @@ test(suitename, tests) {
     try {
       test();
       stdout.writeString('.');
-    } catch (Object e) {
+    } catch (e) {
       stdout.writeString('X');
       failures.add([name, e]);
     }

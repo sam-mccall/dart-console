@@ -28,10 +28,10 @@ class Input {
     while(true) {
       var line = readline(prompt);
       if (line == null) break;
-      if (line.isEmpty()) continue;
+      if (line.isEmpty) continue;
       try {
         if (callback(line)) break;
-      } catch (Exception e) {
+      } catch (e) {
         print(e);        
       }
     }

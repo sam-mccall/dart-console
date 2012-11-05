@@ -28,7 +28,7 @@ class Console {
           case FragmentParser.EXPRESSION: return print(sandbox.eval(input.toString()));
           case FragmentParser.STATEMENT: return sandbox.execute(input.toString());
         }
-      } catch (Object e) {
+      } catch (e) {
         print((e is Exception) ? e : "Exception: $e");
       }
     });

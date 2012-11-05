@@ -25,9 +25,9 @@ class _TrackingMap extends HashMapImplementation {
 }
 
 class Sandbox {
-  final _BASE = @"""
+  final _BASE = r"""
   #import('dart:io', prefix: 'io');
-  get VARIABLES() => _Env._map;
+  get VARIABLES => _Env._map;
   _seedEnv(map) => _Env._map = map;
   class _Env {
     static var _map;
@@ -48,7 +48,7 @@ class Sandbox {
   var _library;
   var _variables;
 
-  Map<String, Object> get variables() => _variables;
+  Map<String, Object> get variables => _variables;
   
   Sandbox() : _variables = new _TrackingMap() {
     var uniquer = _unique();
@@ -90,7 +90,7 @@ class Sandbox {
   void declare(code) {
     // Create getters for any new variables set so they are accessible from declarations.
     for (var v in _variables._getNewKeys()) {
-      declare("get $v() => VARIABLES['$v']; set $v(v) => VARIABLES['$v'] = v;");
+      declare("get $v => VARIABLES['$v']; set $v(v) => VARIABLES['$v'] = v;");
     }
     _declare(_library, "console_declaration_${_unique()}", code);
   }

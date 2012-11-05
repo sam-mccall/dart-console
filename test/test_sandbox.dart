@@ -3,7 +3,7 @@
 
 test(callback(sandbox)) => (){ callback(new Sandbox()); };
 
-get TESTS() => {
+get TESTS => {
   'simpleStatement': test((sandbox) {
     Expect.equals(4, sandbox.execute('return 2+2;'));
   }),

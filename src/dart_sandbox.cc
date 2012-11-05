@@ -43,7 +43,7 @@ DART_FUNCTION(Import) {
     Dart_Handle source = CheckDartError(Dart_InvokeClosure(loadingClosure, 0, NULL));
     importHandle = CheckDartError(Dart_LoadLibrary(importName, source));
   }
-  CheckDartError(Dart_LibraryImportLibrary(libraryHandle, importHandle));
+  CheckDartError(Dart_LibraryImportLibrary(libraryHandle, importHandle, Dart_Null()));
   DART_RETURN(Dart_Null());
 }
 
